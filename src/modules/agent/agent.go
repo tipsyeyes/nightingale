@@ -51,6 +51,11 @@ func init() {
 	}
 
 	runner.Init()
+
+	// mod by elias
+	cDir, _ := os.Getwd()
+	runner.Cwd = cDir
+
 	fmt.Println("runner.cwd:", runner.Cwd)
 	fmt.Println("runner.hostname:", runner.Hostname)
 }
