@@ -24,6 +24,7 @@ type ssoClient struct {
 	config          oauth2.Config
 	apiKey          string
 	cache           *cache.LRUExpireCache
+	stateExpiresIn  time.Duration
 	ssoAddr         string
 	callbackAddr    string
 	coverAttributes bool
@@ -73,12 +74,19 @@ func InitSSO() {
 		Scopes:       []string{oidc.ScopeOpenID, "profile", "email"},
 	}
 	cli.apiKey = cf.ApiKey
+
+	if cf.StateExpiresIn == 0 {
+		cli.stateExpiresIn = time.Second * 60
+	} else {
+		cli.stateExpiresIn = time.Second * time.Duration(cf.StateExpiresIn)
+	}
 }
 
 // Authorize return the sso authorize location with state
 func Authorize(redirect string) string {
 	state := uuid.New().String()
-	cli.cache.Add(state, redirect, time.Second*60)
+	cli.cache.Add(state, redirect, cli.stateExpiresIn)
+	// log.Printf("add state %s", state)
 	return cli.config.AuthCodeURL(state)
 }
 
@@ -97,15 +105,16 @@ func Callback(code, state string) (string, *models.User, error) {
 		return "", nil, fmt.Errorf("invalid state %s", state)
 	}
 	cli.cache.Remove(state)
+	// log.Printf("remove state %s", state)
 
 	redirect := s.(string)
-	log.Printf("callback, get state %s redirect %s", state, redirect)
+	// log.Printf("callback, get state %s redirect %s", state, redirect)
 
 	u, err := exchangeUser(code)
 	if err != nil {
 		return "", nil, err
 	}
-	log.Printf("exchange user %v", u)
+	// log.Printf("exchange user %v", u)
 
 	user, err := models.UserGet("username=?", u.Username)
 	if err != nil {
