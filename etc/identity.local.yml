@@ -1,6 +1,7 @@
 # 用来做心跳，给服务端上报本机ip
 ip:
-  specify: "127.0.0.1"
+#  specify: "127.0.0.1"
+  specify: "10.254.57.168"
   shell: ifconfig `route|grep '^default'|awk '{print $NF}'`|grep inet|awk '{print $2}'|head -n 1
 
 # MON、JOB的客户端拿来做本机标识
