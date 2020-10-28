@@ -27,12 +27,16 @@ report:
 
   # 如果是虚拟机，应该是获取uuid
   # curl -s http://169.254.169.254/a/meta-data/instance-id
-  sn: dmidecode -s system-serial-number | tail -n 1
+  # sn: dmidecode -s system-serial-number | tail -n 1
+  sn: echo 8888-8888-8888-8888-8888
 
   fields:
-    cpu: cat /proc/cpuinfo | grep processor | wc -l
-    mem: cat /proc/meminfo | grep MemTotal | awk '{printf "%dGi", $2/1024/1024}'
-    disk: df -m | grep '/dev/' | grep -v '/var/lib' | grep -v tmpfs | awk '{sum += $2};END{printf "%dGi", sum/1024}'
+    # cpu: cat /proc/cpuinfo | grep processor | wc -l
+    # mem: cat /proc/meminfo | grep MemTotal | awk '{printf "%dGi", $2/1024/1024}'
+    # disk: df -m | grep '/dev/' | grep -v '/var/lib' | grep -v tmpfs | awk '{sum += $2};END{printf "%dGi", sum/1024}'
+    cpu: echo 8
+    mem: echo 15Gi
+    disk: echo 180Gi
 
 sys:
   # timeout in ms

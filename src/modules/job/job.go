@@ -59,10 +59,10 @@ func checkIdentity() {
 
 	fmt.Println("ip:", ip)
 
-	if ip == "127.0.0.1" {
-		fmt.Println("identity: 127.0.0.1, cannot work")
-		os.Exit(2)
-	}
+	//if ip == "127.0.0.1" {
+	//	fmt.Println("identity: 127.0.0.1, cannot work")
+	//	os.Exit(2)
+	//}
 }
 
 func main() {
