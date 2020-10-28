@@ -30,7 +30,7 @@ _test
 /pub
 /build
 /dist
-/etc/*.local.yml
+#/etc/*.local.yml
 /etc/log/log.test.json
 /data*
 /tarball
