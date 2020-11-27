@@ -53,8 +53,10 @@ func init() {
 	runner.Init()
 
 	// mod by elias
-	cDir, _ := os.Getwd()
-	runner.Cwd = cDir
+	//cDir, _ := os.Getwd()
+	//runner.Cwd = cDir
+	// os.Getwd() 获取的是工作目录
+	// filepath.Abs(os.Args[0]) 获取的是程序文件的所在目录，调试模式下修改一下输出目录适配一下
 
 	fmt.Println("runner.cwd:", runner.Cwd)
 	fmt.Println("runner.hostname:", runner.Hostname)
