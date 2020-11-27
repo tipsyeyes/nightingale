@@ -1,12 +1,13 @@
+# 设置日志目录、等级、存储周期
 logger:
   dir: logs/agent
   level: INFO
   keepHours: 24
 
 enable:
-  mon: true
-  job: true
-  report: true
+  mon: true     # 是否启用监控告警
+  job: true     # 是否启用任务执行
+  report: true  #
 
 job:
   metadir: ./meta
@@ -38,17 +39,23 @@ report:
     mem: echo 15Gi
     disk: echo 180Gi
 
+# 监控告警配置
+# 监控告警默认附带的监控指标每30秒以 rpc的方式发送给transfer
+# sys/func模块下是各种指标的获取方式
+# 插件、端口、进程等自定义指标采集上报分别在 sys/plugins、sys/ports、sys/procs目录下
+# 插件默认开启从远端获取采集配置
 sys:
   # timeout in ms
   # interval in second
-  timeout: 5000
-  interval: 30
+  timeout: 5000   # 忽略
+  interval: 30    # 指标主动上报间隔
   ifacePrefix:
     - eth
     - em
     - ens
 
   # ignore disk mount point
+  # 磁盘统计忽略项
   mountIgnore:
     prefix:
       - /var/lib
@@ -56,6 +63,7 @@ sys:
     # collect anyway
     exclude: []
 
+  # 配置需要忽略的采集指标
   ignoreMetrics:
     - cpu.core.idle
     - cpu.core.util

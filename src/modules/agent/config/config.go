@@ -86,6 +86,14 @@ func Parse() error {
 		"waitPush":     0,
 	})
 
+	// 监控采集策略默认配置
+	// enable：默认启用
+	// timeout：接口超时时间设置
+	// interval：策略更新周期
+	// api：获取策略的远程接口（monapi-https）
+	// portPath：端口采集文件路径
+	// procPath：进程采集文件路径
+	// logPath：日志采集文件
 	viper.SetDefault("stra", map[string]interface{}{
 		"enable":   true,
 		"timeout":  1000,
