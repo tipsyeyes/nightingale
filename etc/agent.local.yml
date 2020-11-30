@@ -44,7 +44,8 @@ report:
 # - sys/func模块下是各种指标的获取方式
 # 插件、端口、进程等自定义指标采集上报分别在 sys/plugins、sys/ports、sys/procs目录下
 # 插件默认开启从远端获取采集配置
-# - 如果从本地加载： 读取./plugin下面的文件，$cycle_$名称
+# - 如果从本地加载： 读取./plugin下面格式为 $cycle_$名称 的文件，如 60_myplugin，每60秒exec被系统调用，然后讲stdout序列化成监控指标，传输给transfer
+# -
 sys:
   # timeout in ms
   # interval in second
@@ -76,3 +77,7 @@ sys:
     - cpu.core.softirq
     - cpu.core.iowait
     - cpu.core.steal
+
+  # 从本地加载插件
+  pluginRemote: false
+

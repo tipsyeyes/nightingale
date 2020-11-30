@@ -6,5 +6,5 @@ ip:
 
 # MON、JOB的客户端拿来做本机标识
 ident:
-  specify: "MacBook-Pro.local"
+  specify: "MacBook-Elias.local"
   shell: ifconfig `route|grep '^default'|awk '{print $NF}'`|grep inet|awk '{print $2}'|head -n 1
