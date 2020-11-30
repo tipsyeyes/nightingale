@@ -48,7 +48,8 @@ report:
 # - 如果从远程加载：系统会间隔从monapi获取最新的 proc、port、log、plugin的监控策略，具体查看 stra包
 # 进程采集默认从远程获取采集配置，如果本地目录存在配置文件，就主动覆盖或新增配置
 # - 扫描 procPath目录下的文件，格式为：step_method_name（间隔时间_name|cmdline|cmd_名称标识），不要带后缀名
-#
+# 端口采集默认从远程获取采集配置，如果本地目录存在配置文件，就主动覆盖或新增配置
+# - 扫描 portPath目录下的文件，格式为：step_port（间隔时间_端口），不要带后缀名
 sys:
   # timeout in ms
   # interval in second
