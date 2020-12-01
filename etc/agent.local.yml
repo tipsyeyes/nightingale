@@ -7,12 +7,14 @@ logger:
 enable:
   mon: true     # 是否启用监控告警
   job: true     # 是否启用任务执行
-  report: true  #
+  report: true  # 是否启用主动上报设备信息
 
+# 任务执行模块配置（job-rpc）
 job:
-  metadir: ./meta
-  interval: 2
+  metadir: ./meta     # 任务以任务id的方式保存在本地
+  interval: 2         # 每2秒从 job-rpc拉取任务列表，并报告当前存在的任务状态
 
+# 主动上报设备信息模块配置，主机注册（ams-http）
 report:
   # 调用ams的接口上报数据，需要ams的token
   token: ams-builtin-token
@@ -31,6 +33,7 @@ report:
   # sn: dmidecode -s system-serial-number | tail -n 1
   sn: echo 8888-8888-8888-8888-8888
 
+  # 附加上报字段
   fields:
     # cpu: cat /proc/cpuinfo | grep processor | wc -l
     # mem: cat /proc/meminfo | grep MemTotal | awk '{printf "%dGi", $2/1024/1024}'
@@ -39,7 +42,7 @@ report:
     mem: echo 15Gi
     disk: echo 180Gi
 
-# 监控告警配置
+# 监控告警配置（trans-rpc）
 # 监控告警默认附带的监控指标每30秒以 rpc的方式发送给transfer
 # - sys/func模块下是各种指标的获取方式
 # 插件、端口、进程等自定义指标采集上报分别在 sys/plugins、sys/ports、sys/procs目录下
@@ -50,6 +53,8 @@ report:
 # - 扫描 procPath目录下的文件，格式为：step_method_name（间隔时间_name|cmdline|cmd_名称标识），不要带后缀名
 # 端口采集默认从远程获取采集配置，如果本地目录存在配置文件，就主动覆盖或新增配置
 # - 扫描 portPath目录下的文件，格式为：step_port（间隔时间_端口），不要带后缀名
+# 日志告警采集默认从远程获取采集配置，如果本地目录存在配置文件，就主动新增配置
+# - 扫描 logPath目录下的文件，格式为：log.名称.json（文件内容就是正常的策略json），然后针对每条日志策略会开线程正则匹配告警
 sys:
   # timeout in ms
   # interval in second
@@ -85,7 +90,7 @@ sys:
   # 从本地加载插件
   pluginRemote: false
 
-# 扩展监控采集策略
+# 扩展监控采集策略（monapi-http）
 stra:
   enable: true      # 是否启用
   interval: 10      # 更新间隔
@@ -93,4 +98,10 @@ stra:
   procPath: ./etc/proc
   portPath: ./etc/port
   logPath: ./etc/log
+
+worker:
+  workerNumz: 10
+  queueSize: 1024000
+  pushInterval: 5
+  waitPush: 0
 

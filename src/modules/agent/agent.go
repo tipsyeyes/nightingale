@@ -101,6 +101,10 @@ func monStart() {
 	sys.Init(config.Config.Sys)
 	stra.Init()
 
+	// mod by elias 全局指针初始化放前面
+	//初始化缓存，用作保存COUNTER类型数据
+	cache.Init()
+
 	core.InitRpcClients()
 	funcs.BuildMappers()
 	funcs.Collect()
@@ -113,9 +117,6 @@ func monStart() {
 
 	//端口采集
 	ports.Detect()
-
-	//初始化缓存，用作保存COUNTER类型数据
-	cache.Init()
 
 	//日志采集
 	go worker.UpdateConfigsLoop()
