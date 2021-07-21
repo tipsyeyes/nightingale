@@ -26,32 +26,24 @@ _test
 /log*
 /bin
 /out
-/meta
-/pub
 /build
 /dist
 /etc/*.local.yml
-/etc/log/log.test.json
+/etc/plugins/*.local.yml
 /data*
 /tarball
 /run
+/vendor
+/tmp
+/pub
 
+.alerts
 .idea
 .index
 .vscode
 .DS_Store
 .cache-loader
+queries.active
 
 /n9e-*
-
-/src/modules/agent/agent
-/src/modules/ams/ams
-/src/modules/index/index
-/src/modules/job/job
-/src/modules/judge/judge
-/src/modules/monapi/monapi
-/src/modules/rdb/rdb
-/src/modules/transfer/transfer
-/src/modules/tsdb/tsdb
-
 
