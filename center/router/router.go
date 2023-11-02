@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"mime"
 	"net/http"
 	"path"
 	"runtime"
@@ -119,9 +120,11 @@ func (rt *Router) configNoRoute(r *gin.Engine, fs *http.FileSystem) {
 			} else {
 				cwdarr := []string{"/"}
 				if runtime.GOOS == "windows" {
-					cwdarr[0] = ""
+					// windows调试 相对路径
+					cwdarr[0] = "./"
+				} else {
+					cwdarr = append(cwdarr, strings.Split(runner.Cwd, "/")...)
 				}
-				cwdarr = append(cwdarr, strings.Split(runner.Cwd, "/")...)
 				cwdarr = append(cwdarr, "pub")
 				cwdarr = append(cwdarr, strings.Split(c.Request.URL.Path, "/")...)
 				c.File(path.Join(cwdarr...))
@@ -132,9 +135,10 @@ func (rt *Router) configNoRoute(r *gin.Engine, fs *http.FileSystem) {
 			} else {
 				cwdarr := []string{"/"}
 				if runtime.GOOS == "windows" {
-					cwdarr[0] = ""
+					cwdarr[0] = "./"
+				} else {
+					cwdarr = append(cwdarr, strings.Split(runner.Cwd, "/")...)
 				}
-				cwdarr = append(cwdarr, strings.Split(runner.Cwd, "/")...)
 				cwdarr = append(cwdarr, "pub")
 				cwdarr = append(cwdarr, "index.html")
 				c.File(path.Join(cwdarr...))
@@ -502,7 +506,9 @@ func (rt *Router) Config(r *gin.Engine) {
 	}
 
 	rt.configNoRoute(r, &statikFS)
-
+	// Failed to load module script: Expected a JavaScript module script but the server responded with a MIME type of "text/plain". Strict MIME type checking is enforced for module scripts per HTML spec.
+	// 兼容js扩展名类型的问题 Content Type=text/plain -> Content Type=text/javascript
+	mime.AddExtensionType(".js", "text/javascript; charset=utf-8")
 }
 
 func Render(c *gin.Context, data, msg interface{}) {
