@@ -123,6 +123,7 @@ EngineName = "default"
 MetricsYamlFile = "./etc/metrics.yaml"
 I18NHeaderKey = "X-Language"
 UseFileAssets = true
+BuiltinIntegrationsDir = "./integrations"
 
 [Center.AnonymousAccess]
 PromQuerier = true
